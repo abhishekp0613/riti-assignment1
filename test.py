@@ -1,14 +1,12 @@
 from flask import Flask, request, jsonify, render_template_string
 
 app = Flask(__name__)
-data_list = []  # This list stores submitted numbers
+data_list = []  
 
-# 🏠 Home route (handles "/")
 @app.route('/')
 def home():
     return '<p>Welcome! Go to <a href="/data">/data</a> to submit a number.</p>'
 
-# HTML form template for /data
 form_html = """
 <!DOCTYPE html>
 <html>
@@ -24,7 +22,6 @@ form_html = """
 </html>
 """
 
-# 📥 /data route for form + submission
 @app.route('/data', methods=['GET', 'POST'])
 def handle_data():
     if request.method == 'POST':
@@ -36,11 +33,9 @@ def handle_data():
             return "Invalid input. Please enter a valid number."
     return render_template_string(form_html)
 
-# 📤 /data/json returns JSON list
 @app.route('/data/json', methods=['GET'])
 def get_json():
     return jsonify(data_list)
 
-# 🔧 Run server
 if __name__ == '__main__':
     app.run(debug=True)
